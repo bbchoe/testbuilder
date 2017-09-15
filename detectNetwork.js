@@ -21,6 +21,11 @@ var detectNetwork = function(cardNumber) {
   // Else if 13, 16, or 19 digits long and prefix of 4 ==> return 'Visa'
   // Else if 16 digits long and prefix of 51, 52, 53, 54, or 55 ===> return 'MasterCard'
   // Else return 'Card type not found'
+  // Discover always has a prefix of 6011, 644-649, or 65, and a length of 16 or 19.
+  // Maestro always has a prefix of 5018, 5020, 5038, or 6304, and a length of 12-19.
+  // China UnionPay always has a prefix of 622126-622925, 624-626, or 6282-6288 and a length of 16-19.
+  // Switch always has a prefix of 4903, 4905, 4911, 4936, 564182, 633110, 6333, or 6759 and a length of 16, 18, or 19.
+
   var prefixChars = Number(cardNumber.slice(0,2));
   var firstChar = Number(cardNumber.slice(0,1));
   var threeChar = Number(cardNumber.slice(0,3));
@@ -44,7 +49,7 @@ var detectNetwork = function(cardNumber) {
       longPrefix === 4936 ||
       longPrefix === 6333 ||
       longPrefix === 6759 ||
-      sixChar === 564184 ||
+      sixChar === 564182 ||
       sixChar === 633110) && (
       cardNumber.length === 16 ||
       cardNumber.length === 18 ||

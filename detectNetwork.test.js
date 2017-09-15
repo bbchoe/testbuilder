@@ -154,6 +154,12 @@ describe('Discover', function() {
   it('has a prefix of 65 and a length of 19', function () {
       detectNetwork('6591123456781234123').should.equal('Discover');
   });
+  twoDimTest(65, 65, 16, 16, 'Discover');
+  twoDimTest(6011, 6011, 16, 16, 'Discover');
+  twoDimTest(644, 649, 16, 16,'Discover');
+  twoDimTest(65, 65, 19, 19, 'Discover');
+  twoDimTest(6011, 6011, 19, 19, 'Discover');
+  twoDimTest(644, 649, 19, 19,'Discover');
 });
 
 describe('Maestro', function() {
@@ -227,7 +233,7 @@ function oneDimTest(prefix, length, cardType) {
   twoDimTest(prefix, prefix, length, length, cardType);
 }
 
-describe('should support Switch'), function() {
+describe('should support Switch', function() {
   var should = chai.should();
 
   console.log('in switch test');
@@ -257,4 +263,4 @@ describe('should support Switch'), function() {
   oneDimTest(633110, 19, 'Switch');
   oneDimTest(6333, 19, 'Switch');
   oneDimTest(6759, 19, 'Switch');
-}
+});

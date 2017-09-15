@@ -192,21 +192,69 @@ describe('Maestro', function() {
 
 describe('should support China UnionPay', function () {
   var should = chai.should();
+// prefixes 622126-622925
+// lengths 16-19
+// This outside test works
+
+/*  console.log('testing parent test function for China UnionPay')
+  it('outside test: has a prefix of ' + 622925 + ' and a length of 16', function () {
+    detectNetwork('6229251234567890').should.equal('China UnionPay');
+  });
+*/
+
   twoDimTest(622126, 622925, 16, 19, 'China UnionPay');
+  twoDimTest(624, 626, 16, 19, 'China UnionPay');
+  twoDimTest(6282, 6288, 16, 19, 'China UnionPay');
 });
 
-/* something wrong in this function with the character types of prefix */
 function twoDimTest(startPre, endPre, shortLength, longLength, cardType) {
+  // shortLength and longLength are total lengths for the credit card strings
   var should = chai.should();
   for (var prefix = startPre; prefix <= endPre; prefix++) {
-    for (var cardLength = shortLength - prefix.toString().length; cardLength <= longLength - prefix.toString().length; cardLength++) {
-      (function (cardLength) {
-        it('has a prefix of ' + prefix + ' and a length of ' + (cardLength + prefix.length), function () {
-          detectNetwork(prefix + getNumString(cardLength)).should.equal(cardType);
-        });
-      }) (cardLength)
-    }
+    (function (prefix) {
+      for (var stubLength = shortLength - prefix.toString().length; stubLength <= longLength - prefix.toString().length; stubLength++) {
+        (function (stubLength) {
+          it('has a prefix of ' + prefix + ' and a length of ' + (stubLength + prefix.toString().length), function () {
+            detectNetwork(prefix + getNumString(stubLength)).should.equal(cardType);
+          });
+        }) (stubLength)
+      }
+    }) (prefix)
   }
 }
 
-describe('should support Switch')
+function oneDimTest(prefix, length, cardType) {
+  twoDimTest(prefix, prefix, length, length, cardType);
+}
+
+describe('should support Switch'), function() {
+  var should = chai.should();
+
+  console.log('in switch test');
+  oneDimTest(4903, 16, 'Switch');
+  oneDimTest(4905, 16, 'Switch');
+  oneDimTest(4911, 16, 'Switch');
+  oneDimTest(4936, 16, 'Switch');
+  oneDimTest(564182, 16, 'Switch');
+  oneDimTest(633110, 16, 'Switch');
+  oneDimTest(6333, 16, 'Switch');
+  oneDimTest(6759, 16, 'Switch');
+
+  oneDimTest(4903, 18, 'Switch');
+  oneDimTest(4905, 18, 'Switch');
+  oneDimTest(4911, 18, 'Switch');
+  oneDimTest(4936, 18, 'Switch');
+  oneDimTest(564182, 18, 'Switch');
+  oneDimTest(633110, 18, 'Switch');
+  oneDimTest(6333, 18, 'Switch');
+  oneDimTest(6759, 18, 'Switch');
+
+  oneDimTest(4903, 19, 'Switch');
+  oneDimTest(4905, 19, 'Switch');
+  oneDimTest(4911, 19, 'Switch');
+  oneDimTest(4936, 19, 'Switch');
+  oneDimTest(564182, 19, 'Switch');
+  oneDimTest(633110, 19, 'Switch');
+  oneDimTest(6333, 19, 'Switch');
+  oneDimTest(6759, 19, 'Switch');
+}

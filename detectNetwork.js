@@ -29,6 +29,12 @@ var detectNetwork = function(cardNumber) {
 
   if (cardNumber.length === 14 && (prefixChars === 38 || prefixChars === 39)) {
     return ('Diner\'s Club');
+  } else if ((
+    (sixChar >= 622126 && sixChar <= 622925) ||
+    (threeChar >= 624 && threeChar <= 626) ||
+    (longPrefix >= 6282 && longPrefix <= 6288)) &&
+    (cardNumber.length >= 16 && cardNumber.length <= 19)) {
+      return 'China UnionPay';
   } else if (cardNumber.length === 15 && (prefixChars === 34 || prefixChars === 37)) {
       return ('American Express');
   } else if ((
@@ -49,17 +55,10 @@ var detectNetwork = function(cardNumber) {
       return ('Visa');
   } else if (cardNumber.length === 16 && (prefixChars >= 51 && prefixChars <= 55)) {
       return 'MasterCard';
-  } else if ((cardNumber.length === 16 | cardNumber.length === 19) && (longPrefix === 6011 || (threeChar >= 644 && threeChar <= 649) || prefixChars === 65)) {
+  } else if ((cardNumber.length === 16 || cardNumber.length === 19) && (longPrefix === 6011 || (threeChar >= 644 && threeChar <= 649) || prefixChars === 65)) {
       return 'Discover';
   } else if ((cardNumber.length >= 12 && cardNumber.length <= 19) && (longPrefix === 5018 || longPrefix === 5020 || longPrefix === 5038 || longPrefix === 6304)) {
       return 'Maestro';
-  } else if ((
-    (sixChar >= 622126 && sixChar <= 622925) ||
-    (threeChar >= 624 && threeChar <= 626) ||
-    (longPrefix >= 6282 && longPrefix <= 6288)) &&
-    (cardNumber.length >= 16 && cardNumber.length <= 19)) {
-      console.log ('in China UnionPay');
-      return 'China UnionPay';
   } else {
       return 'Card type not found';
   }
